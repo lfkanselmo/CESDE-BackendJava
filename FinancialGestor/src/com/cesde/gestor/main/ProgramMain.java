@@ -7,6 +7,6 @@ public class ProgramMain {
         Record record = new Record();
         record.dataRecord();
 
-        System.out.println(record.toString());;
+        System.out.println(record.toString());
     }
 }
