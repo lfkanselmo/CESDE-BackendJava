@@ -12,6 +12,10 @@ public class User {
     public User() {
     }
 
+    public String getName() {
+        return name;
+    }
+
     @Override
     public String toString() {
         return "Usuario [" +
@@ -19,10 +23,6 @@ public class User {
                 ", Apellido = '" + lastname +
                 ", Email = '" + email +
                 ']';
-    }
-
-    public String getName() {
-        return name;
     }
 
     public void userCreate(){
