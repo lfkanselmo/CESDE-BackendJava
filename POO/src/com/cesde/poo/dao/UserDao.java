@@ -2,31 +2,37 @@ package com.cesde.poo.dao;
 
 import com.cesde.poo.models.User;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class UserDao {
+    private final List<User> users = new ArrayList<>();
 
-    private List<User> users;
-
-    public UserDao(List<User> users) {
-        this.users = users;
+    public UserDao(){
     }
 
     public void addUser(User user){
         users.add(user);
     }
 
-    public boolean searchUser(Integer id){
+    public User searchUser(String email){
         boolean exist = false;
+        User userAux = null;
 
-        for (User aux: users) {
-            if (aux.getId() == id){
-                exist = true;
-                break;
+        if (!users.isEmpty()){
+            for (User aux: users) {
+                if (aux.getEmail().equals(email)){
+                    exist = true;
+                    userAux = aux;
+                    break;
+                }
             }
         }
 
-        return exist;
+        return userAux;
     }
+
+
 
 }

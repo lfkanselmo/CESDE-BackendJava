@@ -1,65 +1,107 @@
 package com.cesde.poo.services;
 
 import com.cesde.poo.dao.UserDao;
+import com.cesde.poo.models.Student;
 import com.cesde.poo.models.User;
 
-import java.util.List;
 import java.util.Scanner;
 
 public class UserService {
 
     final Scanner read = new Scanner(System.in);
     private User user;
-    private List<User> users;
-    private UserDao userDao = new UserDao(users);
+    private final UserDao userDao = new UserDao();
 
-    public UserService(List<User> users) {
-        this.users = users;
-    }
-
-    //Register function
-    public void singUp(){
-        user = new User();
+    public void singUp() {
         System.out.println();
         System.out.println("****** NUEVO USUARIO ******");
         System.out.println();
-        System.out.println("Ingrese su ID: ");
-        user.setId(read.nextInt());
-        read.skip("\n");
-        if (userDao.searchUser(user.getId())){
-            System.out.println("Usuario ya se encuentra registrado");
-        } else{
-            System.out.println("Ingrese su nombre: ");
-            user.setName(read.nextLine());
-            System.out.println("Ingrese su email: ");
-            user.setEmail(read.nextLine());
-            System.out.println("Ingrese su número de teléfono: ");
-            user.setPhoneNumber(read.nextLine());
-            System.out.println("Ingrese su dirección: ");
-            user.setAddress(read.nextLine());
-            System.out.println("Ingrese su contraseña: ");
-            user.setPassword(read.nextLine());
+        user = createUserType();
+        userDao.addUser(user);
+    }
 
-            userDao.addUser(user);
+
+
+    private User createUserType() {
+        User userAux = new User();
+
+        boolean noOption = true;
+        String opc;
+        do {
+            System.out.println("Seleccione tipo de usuario que desea crear");
+            System.out.println("1. Estudiante");
+            System.out.println("2. Usuario");
+            System.out.println();
+            opc = read.nextLine();
+
+            switch (opc) {
+                case "1":
+                    userAux = new Student();
+                    noOption = false;
+                    break;
+
+                case "2":
+                    noOption = false;
+                    break;
+                default:
+                    System.out.println("Tipo de usuario elegido no válido. Intente de nuevo");
+                    noOption = true;
+                    break;
+
+            }
+        } while (noOption);
+
+        System.out.println("Ingrese su DNI: ");
+        userAux.setId(read.next());
+        read.skip("\n");
+        if (userDao.searchUser(userAux.getEmail()) != null) {
+            System.out.println("Usuario ya se encuentra registrado");
+        } else {
+            System.out.println("Ingrese su nombre: ");
+            userAux.setName(read.nextLine());
+            System.out.println("Ingrese su correo: ");
+            userAux.setEmail(read.nextLine());
+            System.out.println("Ingrese su número de teléfono: ");
+            userAux.setPhoneNumber(read.nextLine());
+            System.out.println("Ingrese su dirección: ");
+            userAux.setAddress(read.nextLine());
+            System.out.println("Ingrese su contraseña: ");
+            userAux.setPassword(read.nextLine());
         }
+
+        if (opc.equals("1")){
+            System.out.println("Ingrese su curso: ");
+            ((Student) userAux).setCourse(read.nextLine());
+        }
+
+        return userAux;
     }
 
     //login function
-    public boolean logIn(){
+    public boolean logIn() {
         boolean log = false;
         System.out.println();
-        System.out.println("****** INICIO DE SESIÓN");
+        System.out.println("****** INICIO DE SESIÓN ******");
         System.out.println();
         System.out.println("Ingrese el correo registrado");
         String emailRegisted = read.nextLine();
         System.out.println("Ingrese la contraseña");
         String passwordRegisted = read.nextLine();
 
-        if (user.getEmail().equals(emailRegisted) && user.getPassword().equals(passwordRegisted)){
-            System.out.println("Bienvenido " + user.getName());
-            log = true;
+        User userConsult = userDao.searchUser(emailRegisted);
+
+        if (userConsult != null) {
+            if (userConsult.getPassword().equals(passwordRegisted)) {
+                System.out.println("Bienvenido " + userConsult.getName());
+                System.out.println("--------------------------------------");
+                System.out.println(userConsult.toString());
+                log = true;
+            } else {
+                System.out.println("Credenciales incorrectas, no se puede iniciar sesión");
+            }
+
         } else {
-            System.out.println("Credenciales incorrectas, no se puede iniciar sesión");
+            System.out.println("No existe usuario asignado al correo: " + emailRegisted);
         }
 
         return log;
