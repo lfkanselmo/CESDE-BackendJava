@@ -8,10 +8,6 @@ public class Test {
         UserService userService = new UserService();
         userService.singUp();
         userService.singUp();
-        if (userService.logIn()) {
-            System.out.println("Login Success");
-        } else {
-            System.out.println("Login Failed");
-        }
+        userService.logIn();
     }
 }

@@ -33,6 +33,14 @@ public class UserDao {
         return userAux;
     }
 
+    public void deleteUser(){
+        throw new RuntimeException();
+    }
+
+    public void updateUser(){
+        throw new RuntimeException();
+    }
+
 
 
 }

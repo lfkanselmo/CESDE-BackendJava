@@ -1,6 +1,7 @@
 package com.cesde.poo.services;
 
 import com.cesde.poo.dao.UserDao;
+import com.cesde.poo.models.Employee;
 import com.cesde.poo.models.Student;
 import com.cesde.poo.models.User;
 
@@ -30,7 +31,7 @@ public class UserService {
         do {
             System.out.println("Seleccione tipo de usuario que desea crear");
             System.out.println("1. Estudiante");
-            System.out.println("2. Usuario");
+            System.out.println("2. Empleado");
             System.out.println();
             opc = read.nextLine();
 
@@ -41,6 +42,7 @@ public class UserService {
                     break;
 
                 case "2":
+                    userAux = new Employee();
                     noOption = false;
                     break;
                 default:
@@ -67,18 +69,28 @@ public class UserService {
             userAux.setAddress(read.nextLine());
             System.out.println("Ingrese su contraseña: ");
             userAux.setPassword(read.nextLine());
-        }
 
-        if (opc.equals("1")){
-            System.out.println("Ingrese su curso: ");
-            ((Student) userAux).setCourse(read.nextLine());
+
+
+            if (opc.equals("1")){
+                System.out.println("Ingrese su curso: ");
+                ((Student)userAux).setCourse(read.nextLine());
+            }
+
+            if(opc.equals("2")){
+                System.out.println("Ingrese el salario del empleado");
+                ((Employee) userAux).setSalary(read.nextDouble());
+                read.skip("\n");
+                System.out.println("Ingrese el area de trabajo");
+                ((Employee) userAux).setArea(read.nextLine());
+            }
         }
 
         return userAux;
     }
 
     //login function
-    public boolean logIn() {
+    public void logIn() {
         boolean log = false;
         System.out.println();
         System.out.println("****** INICIO DE SESIÓN ******");
@@ -92,18 +104,22 @@ public class UserService {
 
         if (userConsult != null) {
             if (userConsult.getPassword().equals(passwordRegisted)) {
+                System.out.println("Login Success");
+                System.out.println();
                 System.out.println("Bienvenido " + userConsult.getName());
                 System.out.println("--------------------------------------");
                 System.out.println(userConsult.toString());
                 log = true;
             } else {
+                System.out.println("Login Failed");
+                System.out.println();
                 System.out.println("Credenciales incorrectas, no se puede iniciar sesión");
             }
 
         } else {
+            System.out.println("Login Failed");
+            System.out.println();
             System.out.println("No existe usuario asignado al correo: " + emailRegisted);
         }
-
-        return log;
     }
 }
