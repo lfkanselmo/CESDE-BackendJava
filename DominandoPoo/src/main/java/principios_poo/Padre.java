@@ -7,6 +7,7 @@ public class Padre extends Familia{
     private static final Scanner read = new Scanner(System.in);
 
     private String profesion;
+    Casa dir = new Casa();
 
     public Padre(String apellidoPadre){
         this.apellidoPadre = apellidoPadre;
@@ -32,7 +33,7 @@ public class Padre extends Familia{
         this.apellidoPadre = read.next();
     }
 
-    public void mostrarNombre(){
+    public void verPadre(){
         System.out.println(this.nombrePadre);
     }
 }

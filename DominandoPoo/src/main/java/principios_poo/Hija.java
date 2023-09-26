@@ -1,6 +1,10 @@
 package principios_poo;
 
+import java.util.Scanner;
+
 public class Hija extends Padre{
+
+    private static final Scanner read = new Scanner(System.in);
 
     private String apellidoMadre;
 
@@ -16,4 +20,16 @@ public class Hija extends Padre{
     public void setApellidoMadre(String apellidoMadre) {
         this.apellidoMadre = apellidoMadre;
     }
+
+    @Override
+    public void crearPadre() {
+        super.crearPadre();
+        this.apellidoMadre = read.nextLine();
+    }
+
+    @Override
+    public void verPadre() {
+        this.getNombrePadre();
+    }
 }
+

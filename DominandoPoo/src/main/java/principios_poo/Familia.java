@@ -2,7 +2,7 @@ package principios_poo;
 
 import java.util.Scanner;
 
-public abstract class Familia {
+public abstract class Familia implements Util{
     private static final Scanner read = new Scanner(System.in);
     protected int idPadre;
     protected String nombrePadre;
@@ -50,10 +50,8 @@ public abstract class Familia {
         read.skip("\n");
         System.out.println("De un nombre al padre: ");
         this.nombrePadre = read.next();
-        System.out.println("De un apellido al padre: ");
-        this.apellidoPadre = read.next();
     }
 
-    public abstract void mostrarNombre();
+    public abstract void verPadre();
 
 }

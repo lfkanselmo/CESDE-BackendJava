@@ -9,6 +9,6 @@ public class Tester {
 
         System.out.println(carlos.getNombrePadre() + " " + carlos.getApellidoPadre());
 
-        juan.mostrarNombre();
+        juan.verPadre();
     }
 }
