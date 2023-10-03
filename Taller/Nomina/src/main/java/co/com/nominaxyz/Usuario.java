@@ -42,13 +42,13 @@ public class Usuario extends ServiceUtil{
     public void crearUsuario(Cargo cargo) {
         System.out.println();
         System.out.println("Ingrese id: ");
-        this.id = sc.nextLine();
+        this.id = sc.nextLine().toLowerCase();
         System.out.println("Ingrese nombre: ");
-        this.nombre = sc.nextLine();
+        this.nombre = sc.nextLine().toLowerCase();
         System.out.println("Ingrese apellido: ");
-        this.apellido = sc.nextLine();
+        this.apellido = sc.nextLine().toLowerCase();
         System.out.println("Ingrese email: ");
-        this.email = sc.nextLine();
+        this.email = sc.nextLine().toLowerCase();
         System.out.println();
     }
 

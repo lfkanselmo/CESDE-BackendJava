@@ -36,9 +36,9 @@ public class Cargo {
         System.out.println();
         System.out.println("---------- CARGO NUEVO ----------");
         System.out.println("Ingrese el ID del cargo: ");
-        this.idCargo = sc.nextLine();
+        this.idCargo = sc.nextLine().toLowerCase();
         System.out.println("Ingrese el nombre del cargo: ");
-        this.nombreCargo = sc.nextLine();
+        this.nombreCargo = sc.nextLine().toLowerCase();
         System.out.println("Ingrese el salario base del cargo: ");
         this.salarioCargo = sc.nextDouble();
         System.out.println();

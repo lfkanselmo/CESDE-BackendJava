@@ -13,6 +13,8 @@ public class MenuApp {
         boolean ejecutar = true;
 
         do {
+            Cargo c;
+            Empleado emple;
             System.out.println();
             System.out.println("Seleccione una opción: ");
             System.out.println("1. Crear un cargo");
@@ -28,20 +30,32 @@ public class MenuApp {
                 case "1":
                     Cargo cargo = new Cargo();
                     cargo.crearCargo();
-                    cargosBD.add(cargo);
-                    System.out.println("Cargo creado con éxito");
+                    c = buscarCargo(cargo.getNombreCargo(), cargo.getIdCargo());
+                    if(c == null){
+                        cargosBD.add(cargo);
+                        System.out.println("Cargo creado con éxito");
+                    } else{
+                        System.out.println("Cargo coincide con uno ya existente. No es posible crear cargo");
+                    }
                     break;
 
                 case "2":
                     Empleado empleado = new Empleado();
                     System.out.println("Ingrese el cargo que desea agregar a este empleado");
                     String cargoAux = sc.nextLine();
-                    Cargo c = buscarCargo(cargoAux);
+                    c = buscarCargo(cargoAux);
 
                     if(c != null){
                         empleado.crearUsuario(c);
-                        empleadosBD.add(empleado);
-                        System.out.println("Empleado creado con éxito");
+                        emple = buscarEmpleado(empleado.getId());
+                        if(emple == null){
+                            empleadosBD.add(empleado);
+                            System.out.println("Empleado creado con éxito");
+                            System.out.println();
+                        } else {
+                            System.out.println("Ya existe un empleado con ese ID, no es posible crear empleado");
+                            System.out.println();
+                        }
                     } else{
                         System.out.println("Ese cargo no existe, no es posible crear empleado");
                         System.out.println();
@@ -53,7 +67,7 @@ public class MenuApp {
                     Nomina nomina = new Nomina();
                     System.out.println("Ingrese el número de documento del empleado al que pertenecerá la nomina");
                     String idEmple = sc.nextLine();
-                    Empleado emple = buscarEmpleado(idEmple);
+                    emple = buscarEmpleado(idEmple);
                     boolean yaExiste = buscarNomina(idEmple);
 
                     if(yaExiste == false){
@@ -61,6 +75,7 @@ public class MenuApp {
                            nomina.crearNomina(emple);
                            nominasDB.add(nomina);
                            System.out.println("Nomina creada con éxito");
+                           System.out.println();
                        } else{
                            System.out.println("No fue posible crear la nomina, el empleado no existe");
                            System.out.println();
@@ -77,6 +92,7 @@ public class MenuApp {
                     System.out.println();
                     String idEmpleColi = sc.nextLine();
                     boolean encontrado = false;
+
                     for(Nomina n: nominasDB){
                         if (n.getEmpleado().getId().equalsIgnoreCase(idEmpleColi)){
                             n.imprimirColilla();
@@ -103,10 +119,21 @@ public class MenuApp {
         }while(ejecutar);
     }
 
-    //Metodo para buscar cargo
+    //Metodo para buscar cargo con nombre de cargo
     public Cargo buscarCargo(String cargoNom){
         for(Cargo c : cargosBD){
             if (c.getNombreCargo().equalsIgnoreCase(cargoNom)){
+                return c;
+            }
+        }
+
+        return null;
+    }
+
+    //Metodo para buscar cargo con nombre de cargo  e id
+    public Cargo buscarCargo(String cargoNom, String id){
+        for(Cargo c : cargosBD){
+            if (c.getNombreCargo().equalsIgnoreCase(cargoNom) || c.getIdCargo().equalsIgnoreCase(id)){
                 return c;
             }
         }

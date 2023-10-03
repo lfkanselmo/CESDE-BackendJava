@@ -26,7 +26,7 @@ public class Empleado extends Usuario {
         super.crearUsuario(cargo);
         this.cargo = cargo;
         System.out.println("Ingrese el area de trabajo: ");
-        this.area = sc.nextLine();
+        this.area = sc.nextLine().toLowerCase();
     }
 
     @Override
