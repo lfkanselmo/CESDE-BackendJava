@@ -6,9 +6,8 @@ import java.sql.Connection;
 
 public class TestConexion {
     public static void main(String[] args) {
-        Conexion conexion = new Conexion();
 
-        try(Connection conect = conexion.get_connection()){
+        try(Connection conect = Conexion.get_connection()){
 
         }catch (Exception e){
             System.out.println(e);

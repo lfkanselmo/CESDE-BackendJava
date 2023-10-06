@@ -5,13 +5,15 @@ import co.com.tienda.models.Producto;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProductoDao {
 
     public static void crearProductoDB(Producto producto){
-        Conexion connect = new Conexion();
-        try(Connection con = connect.get_connection()) {
+        try(Connection con = Conexion.get_connection()) {
 
             PreparedStatement ps = null;
             try{
@@ -26,9 +28,13 @@ public class ProductoDao {
                 ps.setDouble(4,producto.getCosto());
                 ps.setDouble(5, producto.getCantidad());
 
-                ps.executeUpdate();
+                int resultOperacion = ps.executeUpdate();
 
-                System.out.println("Registro exitoso");
+                if(resultOperacion == 0){
+                    System.out.println("No fue posible guardar el producto");
+                }else{
+                    System.out.println("El producto se guardó con éxito");
+                }
 
             }catch (SQLException e){
                 System.out.println(e);
@@ -39,15 +45,89 @@ public class ProductoDao {
         }
     }
 
-    public static  void listarProductosDB(){
+    public static List<Producto> listarProductosDB(){
 
+        List<Producto> productos = new ArrayList<Producto>();
+        try(Connection con = Conexion.get_connection()){
+            PreparedStatement ps = null;
+
+            try{
+                String query = "SELECT * FROM producto;";
+                ps = con.prepareStatement(query);
+                ResultSet rs = ps.executeQuery();
+
+                while(rs.next()){
+                    int id = rs.getInt("id");
+                    String nombre = rs.getString("nombre");
+                    String descripcion = rs.getString("descripcion");
+                    double precio = rs.getDouble("precio");
+                    double costo = rs.getDouble("costo");
+                    double cantidad = rs.getDouble("cantidad");
+
+                    productos.add(new Producto(id,nombre, descripcion, precio, costo, cantidad));
+
+                }
+            }catch (SQLException e){
+                System.out.println("No se recuperaron registros");
+                System.out.println(e);
+            }
+
+        }catch (SQLException e){
+            System.out.println("No se recuperaron registros");
+            System.out.println(e);
+        }
+
+        return productos;
     }
 
-    public static  void modificarProductoDB(){
+    public static  void modificarProductoDB(Producto pModificado){
+        try(Connection con = Conexion.get_connection()){
 
+        }catch (SQLException e){
+            System.out.println(e);
+        }
     }
 
-    public static void eliminarProductoDB(){
+    public static void eliminarProductoDB(int idProducto){
+        try(Connection con = Conexion.get_connection()){
+            PreparedStatement ps = null;
 
+            try{
+                String query = "DELETE FROM producto WHERE id = ?";
+                ps = con.prepareStatement(query);
+                ps.setInt(1, idProducto);
+                int resultOperacion = ps.executeUpdate();
+                if (resultOperacion == 0){
+                    System.out.println("Falló la eliminación del producto");
+                } else {
+                    System.out.println("La eliminación del producto fue éxitosa");
+                }
+
+            }catch (SQLException e){
+                System.out.println("Falló la eliminación del producto");
+                System.out.println(e);
+            }
+        }catch (SQLException e){
+            System.out.println("Falló la eliminación del producto");
+            System.out.println(e);
+        }
+    }
+
+    public static Producto traerProductoId(int id){
+        Producto actualizable = null;
+
+        try(Connection con = Conexion.get_connection()){
+            PreparedStatement ps = null;
+            try{
+               String query = "SELECT * FROM producto WHERE id = ?";
+
+            }catch (SQLException e){
+                System.out.println(e);
+            }
+
+        }catch (SQLException e){
+            System.out.println("No fue posible traer el producto con ID: " + id);
+            System.out.println(e);
+        }
     }
 }
