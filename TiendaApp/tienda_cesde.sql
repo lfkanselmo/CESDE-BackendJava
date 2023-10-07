@@ -1,7 +1,7 @@
-CREATE DATABASE tienda_epica
+CREATE DATABASE tienda_epica;
 
 CREATE TABLE producto (
-  id int(11) NOT PRIMARY KEY AUTO_INCREMENT NULL,
+  id int(11) PRIMARY KEY AUTO_INCREMENT NOT NULL,
   nombre varchar(55) NOT NULL,
   descripcion varchar(55) NOT NULL,
   precio decimal(18,2) NOT NULL,
@@ -10,7 +10,5 @@ CREATE TABLE producto (
 );
 
 
-INSERT INTO producto (id, nombre, descripcion, precio, costo, cantidad) VALUES
-(1, 'Café', 'Mocachino', 6000.00, 2000.00, 20.00);
-
-
+INSERT INTO producto (nombre, descripcion, precio, costo, cantidad) VALUES
+('Café', 'Mocachino', 6000.00, 2000.00, 20.00);

@@ -9,6 +9,7 @@ import java.util.Scanner;
 public class ProductoService {
     private static final Scanner read = new Scanner(System.in);
     public static void crearProducto() {
+        System.out.println();
         System.out.println("Ingrese el nombre del producto");
         String nombre = read.nextLine();
         System.out.println("Ingrese la descripción del producto");
@@ -49,8 +50,28 @@ public class ProductoService {
 
     }
 
-    public static  void modificarProducto(){
+    public static void mostrarProductoPorId(){
+        System.out.println();
+        System.out.println("Ingrese el ID del producto a mostrar");
+        int idAux = read.nextInt();
 
+        Producto productoAMostrar = ProductoDao.traerProductoId(idAux);
+        if (productoAMostrar != null){
+            System.out.println(
+                    "ID: " + productoAMostrar.getId() + "\n" +
+                            "Nombre: " + productoAMostrar.getNombreProducto() + "\n" +
+                            "Descripcion: " + productoAMostrar.getDescripcionProducto() + "\n" +
+                            "Precio: " + productoAMostrar.getPrecio() + "\n" +
+                            "Costo: " + productoAMostrar.getCosto() + "\n" +
+                            "Cantidad: " + productoAMostrar.getCantidad() + "\n"
+            );
+        }else{
+            System.out.println("Producto con ID " + idAux + " no existe");
+        }
+    }
+
+    public static  void modificarProducto(){
+        System.out.println();
         System.out.println("Ingrese el ID del producto a modificar: ");
         int idAux = read.nextInt();
 
@@ -71,7 +92,7 @@ public class ProductoService {
                 System.out.println("3. Precio");
                 System.out.println("4. Costo");
                 System.out.println("5. Cantidad");
-                System.out.println("Salir");
+                System.out.println("6. Salir");
                 String opc = read.next();
                 read.skip("\n");
 
@@ -79,29 +100,35 @@ public class ProductoService {
                 switch(opc){
                     case "1":
                         System.out.println("Ingrese el nuevo nombre del producto");
-                        nombre = read.nextLine();
+                        actualizable.setNombreProducto(read.nextLine());
                         finish = true;
                         break;
 
                     case "2":
                         System.out.println("Ingrese la nueva descripción del producto");
-                        descripcion = read.nextLine();
+                        actualizable.setDescripcionProducto(read.nextLine());
                         finish = true;
                         break;
 
                     case "3":
                         System.out.println("Ingrese el nuevo precio del producto");
-                        precio = read.nextDouble();
+                        actualizable.setPrecio(read.nextDouble());
                         finish = true;
                         break;
 
                     case "4":
                         System.out.println("Ingrese el nuevo costo del producto");
-                        costo = read.nextDouble();
+                        actualizable.setCosto(read.nextDouble());
                         finish = true;
                         break;
 
                     case "5":
+                        System.out.println("ingrese la nueva cantidad del producto");
+                        actualizable.setCantidad(read.nextDouble());
+                        finish = true;
+                        break;
+
+                    case "6":
                         System.out.println("----------- Fin de modicaciones -----------");
                         finish = false;
                         break;
@@ -109,14 +136,18 @@ public class ProductoService {
                 }
             }while(finish);
 
+            ProductoDao.modificarProductoDB(actualizable);
 
         } else {
+            System.out.println();
             System.out.println("ID de producto a modificar no existe");
+            System.out.println();
         }
 
     }
 
     public static void eliminarProducto(){
+        System.out.println();
         System.out.println("Ingrese el ID del producto a borrar: ");
         int idAux = read.nextInt();
         ProductoDao.eliminarProductoDB(idAux);

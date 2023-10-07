@@ -4,8 +4,7 @@ import co.com.tienda.services.ProductoService;
 
 public class TestProductoDao {
     public static void main(String[] args) {
-        ProductoService.crearProducto();
-        ProductoService.crearProducto();
         ProductoService.listarProductos();
+        ProductoService.mostrarProductoPorId();
     }
 }
