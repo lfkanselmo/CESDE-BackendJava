@@ -128,7 +128,7 @@ public class ProductoDao {
                 ps.setInt(1, idProducto);
                 int resultOperacion = ps.executeUpdate();
                 if (resultOperacion == 0) {
-                    System.out.println("Falló la eliminación del producto");
+                    System.out.println("No se eliminaron productos");
                 } else {
                     System.out.println("La eliminación del producto fue éxitosa");
                 }

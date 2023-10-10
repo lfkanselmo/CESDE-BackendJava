@@ -10,6 +10,7 @@ public class ProductoService {
     private static final Scanner read = new Scanner(System.in);
     public static void crearProducto() {
         System.out.println();
+        System.out.println("----------------------- PRODUCTO NUEVO -----------------------");
         System.out.println("Ingrese el nombre del producto");
         String nombre = read.nextLine();
         System.out.println("Ingrese la descripción del producto");
@@ -46,6 +47,7 @@ public class ProductoService {
                         "Cantidad: " + p.getCantidad() + "\n"
                 );
             }
+            System.out.println();
         }
 
     }
@@ -57,6 +59,7 @@ public class ProductoService {
 
         Producto productoAMostrar = ProductoDao.traerProductoId(idAux);
         if (productoAMostrar != null){
+            System.out.println("--------------------- PRODUCTOS ---------------------");
             System.out.println(
                     "ID: " + productoAMostrar.getId() + "\n" +
                             "Nombre: " + productoAMostrar.getNombreProducto() + "\n" +
@@ -68,6 +71,8 @@ public class ProductoService {
         }else{
             System.out.println("Producto con ID " + idAux + " no existe");
         }
+
+        System.out.println();
     }
 
     public static  void modificarProducto(){
@@ -79,11 +84,6 @@ public class ProductoService {
 
         if(actualizable != null){
             boolean finish = true;
-            String nombre;
-            String descripcion;
-            double precio;
-            double costo;
-            double cantidad;
 
             do{
                 System.out.println("Indique para modificar: ");
@@ -92,7 +92,7 @@ public class ProductoService {
                 System.out.println("3. Precio");
                 System.out.println("4. Costo");
                 System.out.println("5. Cantidad");
-                System.out.println("6. Salir");
+                System.out.println("6. Terminar modificación");
                 String opc = read.next();
                 read.skip("\n");
 

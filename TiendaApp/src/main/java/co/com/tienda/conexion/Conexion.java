@@ -23,7 +23,9 @@ public class Conexion {
                     "root",
                     "");
             if(connect != null){
+                System.out.println();
                 System.out.println("Conexión exitosa");
+                System.out.println();
             }
         }catch(SQLException e){
             System.out.println(e);
