@@ -86,6 +86,8 @@ public class ProductoService {
             boolean finish = true;
 
             do{
+                System.out.println("-------------------------------------------------");
+                System.out.println(" ----------- " + actualizable.getNombreProducto() + " ----------- ");
                 System.out.println("Indique para modificar: ");
                 System.out.println("1. Nombre");
                 System.out.println("2. Descripcion");
