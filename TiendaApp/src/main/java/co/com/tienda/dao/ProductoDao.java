@@ -12,8 +12,10 @@ import java.util.List;
 
 public class ProductoDao {
 
+    private static final Conexion conexion = Conexion.get_Instance();
+
     public static void crearProductoDB(Producto producto) {
-        try (Connection con = Conexion.get_connection()) {
+        try (Connection con = conexion.get_Connection()) {
 
             PreparedStatement ps = null;
             try {
@@ -44,13 +46,15 @@ public class ProductoDao {
 
         } catch (SQLException e) {
             System.out.println(e);
+        } finally {
+            conexion.close_Connection();
         }
     }
 
     public static List<Producto> listarProductosDB() {
 
         List<Producto> productos = new ArrayList<>();
-        try (Connection con = Conexion.get_connection()) {
+        try (Connection con = conexion.get_Connection()) {
             PreparedStatement ps = null;
 
             try {
@@ -70,13 +74,15 @@ public class ProductoDao {
         } catch (SQLException e) {
             System.out.println("No se recuperaron registros");
             System.out.println(e);
+        } finally {
+            conexion.close_Connection();
         }
 
         return productos;
     }
 
     public static void modificarProductoDB(Producto pModificado) {
-        try (Connection con = Conexion.get_connection()) {
+        try (Connection con = conexion.get_Connection()) {
             PreparedStatement ps = null;
             try {
                 String query = """
@@ -112,11 +118,13 @@ public class ProductoDao {
         } catch (SQLException e) {
             System.out.println("No se pudo modificar el producto");
             System.out.println(e);
+        } finally {
+            conexion.close_Connection();
         }
     }
 
     public static void eliminarProductoDB(int idProducto) {
-        try (Connection con = Conexion.get_connection()) {
+        try (Connection con = conexion.get_Connection()) {
             PreparedStatement ps = null;
 
             try {
@@ -133,6 +141,7 @@ public class ProductoDao {
                     System.out.println("La eliminación del producto fue éxitosa");
                 }
 
+
             } catch (SQLException e) {
                 System.out.println("Falló la eliminación del producto");
                 System.out.println(e);
@@ -140,6 +149,8 @@ public class ProductoDao {
         } catch (SQLException e) {
             System.out.println("Falló la eliminación del producto");
             System.out.println(e);
+        } finally {
+            conexion.close_Connection();
         }
     }
 
@@ -147,7 +158,7 @@ public class ProductoDao {
         Producto actualizable = null;
         List<Producto> producto;
 
-        try (Connection con = Conexion.get_connection()) {
+        try (Connection con = conexion.get_Connection()) {
             PreparedStatement ps = null;
             try {
                 String query = """
@@ -166,6 +177,7 @@ public class ProductoDao {
                     actualizable = producto.get(0);
                 }
 
+
             } catch (SQLException e) {
                 System.out.println("No fue posible traer el producto con ID: " + id);
                 System.out.println(e);
@@ -174,6 +186,8 @@ public class ProductoDao {
         } catch (SQLException e) {
             System.out.println("No fue posible traer el producto con ID: " + id);
             System.out.println(e);
+        } finally {
+            conexion.close_Connection();
         }
 
         return actualizable;
