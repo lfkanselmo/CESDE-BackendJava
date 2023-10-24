@@ -10,11 +10,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductoDao {
+public class ProductoDao implements DAO{
 
     private static final Conexion conexion = Conexion.get_Instance();
 
-    public static void crearProductoDB(Producto producto) {
+    public void crear(Producto producto) {
         try (Connection con = conexion.get_Connection()) {
 
             PreparedStatement ps = null;
@@ -51,7 +51,7 @@ public class ProductoDao {
         }
     }
 
-    public static List<Producto> listarProductosDB() {
+    public List<Producto> listar() {
 
         List<Producto> productos = new ArrayList<>();
         try (Connection con = conexion.get_Connection()) {
@@ -81,7 +81,7 @@ public class ProductoDao {
         return productos;
     }
 
-    public static void modificarProductoDB(Producto pModificado) {
+    public void modificar(Producto pModificado) {
         try (Connection con = conexion.get_Connection()) {
             PreparedStatement ps = null;
             try {
@@ -123,7 +123,7 @@ public class ProductoDao {
         }
     }
 
-    public static void eliminarProductoDB(int idProducto) {
+    public void eliminar(int idProducto) {
         try (Connection con = conexion.get_Connection()) {
             PreparedStatement ps = null;
 
@@ -154,7 +154,7 @@ public class ProductoDao {
         }
     }
 
-    public static Producto traerProductoId(int id) {
+    public Producto listarPorId(int id) {
         Producto actualizable = null;
         List<Producto> producto;
 
@@ -193,7 +193,7 @@ public class ProductoDao {
         return actualizable;
     }
 
-    private static List<Producto> resultSetAList(ResultSet rs) throws SQLException {
+    private List<Producto> resultSetAList(ResultSet rs) throws SQLException {
         List<Producto> productos = new ArrayList<>();
         while (rs.next()) {
             int id = rs.getInt("id");
