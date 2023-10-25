@@ -1,5 +1,6 @@
 package co.com.tienda.services;
 
+import co.com.tienda.dao.DAO;
 import co.com.tienda.dao.ProductoDao;
 import co.com.tienda.models.Producto;
 
@@ -8,6 +9,7 @@ import java.util.Scanner;
 
 public class ProductoService {
     private static final Scanner read = new Scanner(System.in);
+    private static final DAO dao = new ProductoDao();
     public static void crearProducto() {
         System.out.println();
         System.out.println("----------------------- PRODUCTO NUEVO -----------------------");
@@ -25,11 +27,11 @@ public class ProductoService {
 
         Producto producto = new Producto(nombre,descripcion,precio,costo,cantidad);
 
-        ProductoDao.crearProductoDB(producto);
+        dao.crear(producto);
     }
 
     public static  void listarProductos(){
-        List<Producto> productos = ProductoDao.listarProductosDB();
+        List<Producto> productos = dao.listar();
 
         if(productos.isEmpty()){
             System.out.println("-----------------------------------------------------");
@@ -57,7 +59,7 @@ public class ProductoService {
         System.out.println("Ingrese el ID del producto a mostrar");
         int idAux = read.nextInt();
 
-        Producto productoAMostrar = ProductoDao.traerProductoId(idAux);
+        Producto productoAMostrar = (Producto) dao.listarPorId(idAux);
         if (productoAMostrar != null){
             System.out.println("--------------------- PRODUCTOS ---------------------");
             System.out.println(
@@ -80,7 +82,7 @@ public class ProductoService {
         System.out.println("Ingrese el ID del producto a modificar: ");
         int idAux = read.nextInt();
 
-        Producto actualizable = ProductoDao.traerProductoId(idAux);
+        Producto actualizable = (Producto) dao.listarPorId(idAux);
 
         if(actualizable != null){
             boolean finish = true;
@@ -138,7 +140,7 @@ public class ProductoService {
                 }
             }while(finish);
 
-            ProductoDao.modificarProductoDB(actualizable);
+            dao.modificar(actualizable);
 
         } else {
             System.out.println();
@@ -152,6 +154,6 @@ public class ProductoService {
         System.out.println();
         System.out.println("Ingrese el ID del producto a borrar: ");
         int idAux = read.nextInt();
-        ProductoDao.eliminarProductoDB(idAux);
+        dao.eliminar(idAux);
     }
 }

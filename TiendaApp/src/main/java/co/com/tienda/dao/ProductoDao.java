@@ -10,10 +10,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductoDao implements DAO{
+public class ProductoDao implements DAO<Producto>{
 
     private static final Conexion conexion = Conexion.get_Instance();
 
+    @Override
     public void crear(Producto producto) {
         try (Connection con = conexion.get_Connection()) {
 
@@ -51,6 +52,8 @@ public class ProductoDao implements DAO{
         }
     }
 
+
+    @Override
     public List<Producto> listar() {
 
         List<Producto> productos = new ArrayList<>();
@@ -81,6 +84,47 @@ public class ProductoDao implements DAO{
         return productos;
     }
 
+    @Override
+    public Producto listarPorNombre(String nombre) {
+        Producto actualizable = null;
+        List<Producto> producto;
+
+        try (Connection con = conexion.get_Connection()) {
+            PreparedStatement ps = null;
+            try {
+                String query = """
+                        SELECT * 
+                        FROM producto 
+                        WHERE nombre = ?
+                        """;
+                ps = con.prepareStatement(query);
+                ps.setString(1, nombre);
+                ResultSet rs = ps.executeQuery();
+
+                producto = resultSetAList(rs);
+                if (producto.isEmpty()) {
+                    actualizable = null;
+                } else {
+                    actualizable = producto.get(0);
+                }
+
+
+            } catch (SQLException e) {
+                System.out.println("No fue posible traer el producto con nombre: " + nombre);
+                System.out.println(e);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("No fue posible traer el producto con nombre: " + nombre);
+            System.out.println(e);
+        } finally {
+            conexion.close_Connection();
+        }
+
+        return actualizable;
+    }
+
+    @Override
     public void modificar(Producto pModificado) {
         try (Connection con = conexion.get_Connection()) {
             PreparedStatement ps = null;
@@ -123,6 +167,7 @@ public class ProductoDao implements DAO{
         }
     }
 
+    @Override
     public void eliminar(int idProducto) {
         try (Connection con = conexion.get_Connection()) {
             PreparedStatement ps = null;
@@ -154,6 +199,7 @@ public class ProductoDao implements DAO{
         }
     }
 
+    @Override
     public Producto listarPorId(int id) {
         Producto actualizable = null;
         List<Producto> producto;

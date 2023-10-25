@@ -15,7 +15,7 @@ public class Conexion {
                     connect = DriverManager.getConnection(
                             "jdbc:mysql://localhost:3306/tienda_epica",
                             "root",
-                            "1152");
+                            "");
                 }
 
             if (connect != null) {
