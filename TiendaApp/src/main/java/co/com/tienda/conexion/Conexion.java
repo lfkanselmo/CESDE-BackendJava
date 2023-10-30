@@ -15,7 +15,7 @@ public class Conexion {
                     connect = DriverManager.getConnection(
                             "jdbc:mysql://localhost:3306/tienda_epica",
                             "root",
-                            "");
+                            "root");
                 }
 
             if (connect != null) {
@@ -27,7 +27,6 @@ public class Conexion {
             System.out.println(e);
         }
 
-        System.out.println("Creando conexión: " + connect);
     }
 
 
@@ -40,7 +39,6 @@ public class Conexion {
 
 
     public Connection get_Connection() {
-        System.out.println("Trayendo conexion: " + connect);
         if (connect == null) {
             System.out.println("conexion nueva");
             new Conexion();
@@ -50,16 +48,15 @@ public class Conexion {
     }
 
     public void close_Connection() {
-        System.out.println("Antes de cerrar conexion: " + connect);
+
         try {
             if (connect != null) {
                 connect.close();
                 connect = null;
-                System.out.println("cerrada conexion");
             }
         } catch (Exception e) {
             System.out.println(e);
         }
-        System.out.println("Después de cerrar conexión: " + connect);
+
     }
 }
